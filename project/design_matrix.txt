@@ -1,0 +1,5 @@
+base	infected
+SRR7449830.CpG_report.merged_CpG	1	1
+SRR7449826.CpG_report.merged_CpG	1	0
+SRR7449842.CpG_report.merged_CpG	1	1
+SRR7449838.CpG_report.merged_CpG	1	0

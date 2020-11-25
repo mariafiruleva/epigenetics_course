@@ -1,0 +1,20 @@
+import re
+import glob
+import pandas as pd
+
+
+genomes = [re.sub('.*/', '', x) for x in glob.glob('genomes/*') if not re.findall('.sizes', x)]
+runs = pd.read_csv('SraAccList.txt', index_col=False, header=None)[0].tolist()
+
+include: "rules/quality_control.smk"
+include: "rules/trimming.smk"
+include: "rules/alignment.smk"
+include: "rules/get_meth.smk"
+include: "rules/get_regions.smk"
+include: "rules/get_regions.smk"
+
+rule all:
+    input: 'meth_CpG_dmrs/dmrs_avgdiff_0.025_ncyto_3.bed', "qc/reads_qc.html", "qc/alignment.html",
+            expand('meth_CpG_hmr/{genome}/{run}.hmr', run=runs, genome='hg38_16'),
+            expand('meth_CpG_hypermr/{genome}/{run}.hypermr', run=runs, genome='hg38_16'),
+            expand('meth_CpG_hmr/{genome}/{run}.partial.pmd', run=runs, genome=genomes),
